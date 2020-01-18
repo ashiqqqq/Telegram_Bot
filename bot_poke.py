@@ -6,15 +6,12 @@ import os
 import requests
 import logging
 
-# Initialise logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+
+
 
 # Load bot token
-with open('token.ini', 'r') as file:
-    BOT_TOKEN = file.read().strip()
+with open('token_poke.ini', 'r') as file:
+   BOT_TOKEN = file.read().strip()
 
 # Create the bot
 updater = Updater(token=BOT_TOKEN, use_context=True)
@@ -30,11 +27,11 @@ else:
 def start(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f'Hello {update.effective_message.chat.first_name}! Type /quote to receive the quote of the day.'
+        text=f'Hello {update.effective_message.chat.first_name}! Type /cat for cat pick me ups, /dogs if you are a dog lover or /poke if you have a sudden urge to learn about pokemon'
     )
 
 # Add /quote handler
-def quote(update, context):
+def poke(update, context):
     # Update /quote count
     user_key = str(update.effective_chat.id)
     count = counter_dict.get(user_key, 0) + 1
@@ -43,7 +40,7 @@ def quote(update, context):
     # Send thinking message
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text='Hmm...let me think...'
+        text='What lucky pokemon will you get ? I wonder....'
     )
 
     # Send typing status
@@ -51,7 +48,7 @@ def quote(update, context):
         chat_id=update.effective_chat.id,
         action=ChatAction.TYPING
     )
-
+'''
     # Generate image url
     img_url = f'https://picsum.photos/seed/{datetime.now()}/500'
 
@@ -71,13 +68,13 @@ def quote(update, context):
         caption=f'{random_quote["content"]}\n- _{random_quote["author"]}_\n\nYou have called /quote {count} time(s)!',
         parse_mode=ParseMode.MARKDOWN
     )
-
+'''
 updater.dispatcher.add_handler(
     CommandHandler('start', start)
 )
 
 updater.dispatcher.add_handler(
-    CommandHandler('quote', quote)
+    CommandHandler('poke', poke)
 )
 
 # Start the bot
@@ -100,7 +97,3 @@ print('Bot stopped!')
 
 # need another file which does the scrapping of the data from the website requested.
 # cretae in a server
-# Polling method
-# go find out about NTU server
-# small virtual machine
-# telegram server will be sending to my server.
